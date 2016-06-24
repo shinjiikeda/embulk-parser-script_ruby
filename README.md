@@ -9,26 +9,51 @@ TODO: Write short description here and embulk-parser-script_ruby.gemspec file.
 
 ## Configuration
 
-- **option1**: description (integer, required)
-- **option2**: description (string, default: `"myvalue"`)
-- **option3**: description (string, default: `null`)
+- **script**: script (string, required)
+- **class**: class name (string, required)
+- **columns**: Array of columns name & type (Array, required)
 
 ## Example
+
+config.yaml
 
 ```yaml
 in:
   type: any file input plugin type
   parser:
     type: script_ruby
-    option1: example1
-    option2: example2
+    script: parser_hoge
+    class: ParserHoge
+    columns:
+      - name: id
+        type: string
+      - name: url
+        type: string
 ```
 
-(If guess supported) you don't have to write `parser:` section in the configuration file. After writing `in:` section, you can let embulk guess `parser:` section using this command:
+lib/parser_hoge.rb
+
+```ruby 
+require 'json'
+
+class ParserHoge
+  def initialize
+  end
+
+  def parser(io)
+    json = io.read
+    obj = JSON.parse(json)
+    obj.each do | row |
+      yield row
+    end
+  end
+end
+```
+
+run 
 
 ```
-$ embulk gem install embulk-parser-script_ruby
-$ embulk guess -g script_ruby config.yml -o guessed.yml
+embulk run config.yaml -I lib 
 ```
 
 ## Build
