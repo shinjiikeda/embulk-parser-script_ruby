@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Parses Script Ruby files read by other file input plugins."
   spec.email         = ["gm.ikeda@gmail.com"]
   spec.licenses      = ["MIT"]
-  # TODO set this: spec.homepage      = "https://github.com/gm.ikeda/embulk-parser-script_ruby"
+  spec.homepage      = "https://github.com/shinjiikeda/embulk-parser-script_ruby"
 
   spec.files         = `git ls-files`.split("\n") + Dir["classpath/*.jar"]
   spec.test_files    = spec.files.grep(%r{^(test|spec)/})
